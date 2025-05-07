@@ -25,8 +25,10 @@ def get_dataset(container_name, zarr_prefix, sas):
 
     container_name: str
     zarr_prefix: str
-
-    returns: xarray dataset
+    sas: str
+        SAS token for the blob storage account
+    Returns:
+        xarray dataset
     """
     url = "https://climatedataprod.blob.core.windows.net?" + sas
     container_client = ContainerClient(url, container_name=container_name)
@@ -35,6 +37,23 @@ def get_dataset(container_name, zarr_prefix, sas):
     return ds
 
 def get_month_year():
+    '''
+    Get the month and year from user input. If no input is given, use the current month and year.
+
+    The year must be a 4-digit number between 1900 and 2100.
+    The month must be a number between 1 and 12.
+
+    If the input is invalid, the function will prompt the user to enter a valid month and year.
+
+    Returns:
+        year (int): The year entered by the user or the current year.
+        month (int): The month entered by the user or the current month.
+
+    Example:
+    year, month = get_month_year()
+    print(f"Year: {year}, Month: {month}")
+    
+    '''
     today = dt.datetime.today()
     default_month = today.month
     default_year = today.year
@@ -60,6 +79,18 @@ def get_month_year():
     return year, month
 
 def get_normals(da, year, month, snodas=True):
+    """
+    Get the normals for the specified month and year.
+
+    Parameters:
+    da (xarray.DataArray): The input data array.
+    year (int): The year for which to calculate normals.
+    month (int): The month for which to calculate normals.
+    snodas (bool): If True, use the SNODAS dataset. If False, use the Copernicus dataset.
+
+    Returns:
+    xarray.DataArray: The normals for the specified month and year.
+    """
     # Generate the list of first-of-month dates (at 5am) up to the year before the input year
     if snodas:
         month_firsts = pd.date_range(
@@ -82,6 +113,20 @@ def get_normals(da, year, month, snodas=True):
     return normals
 
 def get_percent_of_normal(da, normals, year, month, snodas=True):
+    """
+    Get the percent of normal for the specified month and year.
+
+
+    Parameters:
+    da (xarray.DataArray): The input data array.
+    normals (xarray.DataArray): The normals for the specified month and year.
+    year (int): The year for which to calculate percent of normal.
+    month (int): The month for which to calculate percent of normal.
+    snodas (bool): If True, use the SNODAS dataset. If False, use the Copernicus dataset.
+
+    Returns:
+    xarray.DataArray: The percent of normal for the specified month and year.
+    """
     # Select the same month in the input year
     if snodas:
         first_of_month = dt.datetime(year, month, 1, 5)
