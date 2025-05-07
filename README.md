@@ -31,7 +31,7 @@ The `.tif` files will be saved in the same directory that the script is run from
 
 ## Secrets
 
-Accessing Snodas and Copernicus data, requires credentials.  The recommended way to store this information is in a file called `.env`.  Keep this file in the same directory as the one in which you are working from, for example, `C:\\Documents\my_data_pull`.
+Accessing Snodas and Copernicus data, requires credentials.  The recommended way to store this information is in a file called `.env`.  Keep this file in the same directory as the one in which you are working from, for example, `C:\\Documents\swe_normals`.
 
 The file should have the following lines:
 
