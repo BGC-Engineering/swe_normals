@@ -12,7 +12,7 @@ conda create -n swe-normals python=3.11.5
 conda activate swe-normals
 ```
 
-Once you have created the new environment, navigate to the path the swe_normals repository is located at and install the requirements.txt
+Once you have created the new environment, navigate to the path where you have saved the swe_normals repository and install the requirements.txt
 
 ```bash
 pip install -r requirements.txt
